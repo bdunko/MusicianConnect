@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+    <!--
+    ===================================================================
+    |  Clicking the CREATE button in List.xhtml displays this Dialog  |
+    |  window for the user to enter the data to create a new entry.  |
+    ===================================================================
+    -->
+    <p:dialog id="MessageCreateDlg" header="Post New Message" widgetVar="MessageCreateDialog"
+              modal="true" position="center" appendTo="@(body)"
+              showEffect="slide" hideEffect="fade" responsive="true" >
+        <!--
+        Various effect options can be used when showing and closing the dialog.
+        Use showEffect and hideEffect options to apply these effects:
+            blind, bounce, clip, drop, explode, fade, fold, highlight, puff,
+            pulsate, scale, shake, size, slide and transfer. [PrimeFaces Documentation]
+        -->
+
+        <!-- class="ui-datatable-data" in siteStyles reduces row paddings -->
+        <h:form id="MessageCreateForm" class="ui-datatable-data">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
+                             rendered="#{messageController.selected != null}">
+                    <!--
+                    When the user clicks the CREATE button in List.xhtml, actionListener="#{songController.prepareCreate}"
+                    executes the prepareCreate method in which a new object is instantiated and its object reference
+                    is stored in the "selected" instance variable. Thus, "selected" points to a newly created object
+                    with property (instance variable) values set to empty or null. The inputText data fields below are
+                    intended to assign user-provided values to the properties of the newly created object.
+                    -->
+                    <p:outputLabel value="Message:" for="message" />
+                    <p:inputText id="message" value="#{messageController.selected.message}" style="width:300px"
+                                 required="true" requiredMessage="Message is required." styleClass="scrollableTextBox"/>
+
+
+                </p:panelGrid>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <br />
+                <div align="center">
+                    <!-- SAVE button -->
+                    <p:commandButton value="Save" icon="fas fa-save" styleClass="rounded-button"
+                                     ajax="false" actionListener="#{messageController.create()}"
+                                     update="display,:MessageListForm:datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                     oncomplete="handleSubmit(args,'MessageCreateDialog');" />
+                    &nbsp;
+                    <!--
+                    CANCEL button: Call the cancel() method immediately without first rendering this JSF page.
+                    The cancel() method will make the selected object null and show the List page.
+                    -->
+                    <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                     action="#{messageController.cancel()}" ajax="false" immediate="true"
+                                     onclick="PF('MessageCreateDialog').hide()" />
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

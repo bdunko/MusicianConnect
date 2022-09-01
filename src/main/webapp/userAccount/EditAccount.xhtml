@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Edit Account" />
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" style="width:50%; margin:0 auto;">
+
+                <h:form id="EditAccountProfileForm">
+                    <h1>Edit Account Profile</h1>
+
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+                        <!--
+                        ********************************
+                        *          FIRST NAME          *
+                        ********************************
+                        -->
+                        <p:outputLabel value="First Name:" for="firstName" />
+                        <p:inputText id="firstName" value="#{userController.selected.firstName}" required="true" class="inputTextField"
+                                     requiredMessage="The First Name field is required." label="First Name">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>   
+
+                        <!--
+                        ********************************
+                        *         MIDDLE NAME          *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Middle Name:" for="middleName" />
+                        <p:inputText id="middleName" value="#{userController.selected.middleName}"
+                                     required="false" class="inputTextField" label="Middle Name">
+                        </p:inputText>
+
+                        <!--
+                        ********************************
+                        *           LAST NAME          *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Last Name:" for="lastName" />
+                        <p:inputText id="lastName" value="#{userController.selected.lastName}" required="true" class="inputTextField"
+                                     requiredMessage="The Last Name field is required." label="Last Name">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+
+                        <!--
+                        ********************************
+                        *        ADDRESS LINE 1        *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Address Line 1:" for="address1" />
+                        <p:inputText id="address1" value="#{userController.selected.address1}" required="true" class="inputTextField"
+                                     requiredMessage="The Address Line 1 field is required." label="Address Line 1">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+
+                        <!--
+                        ********************************
+                        *        ADDRESS LINE 2        *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Address Line 2:" for="address2" />
+                        <p:inputText id="address2" value="#{userController.selected.address2}" class="inputTextField" label="Address Line 2">
+                        </p:inputText>
+
+                        <!--
+                        ********************************
+                        *             CITY             *
+                        ********************************
+                        -->
+                        <p:outputLabel value="City:" for="city" />
+                        <p:inputText id="city" value="#{userController.selected.city}" required="true" class="inputTextField"
+                                     requiredMessage="The City field is required." label="City">
+                            <f:validateLength minimum="2" />
+                        </p:inputText>
+
+                        <!--
+                        ********************************
+                        *      STATE ABBREVIATION      *
+                        ********************************
+                        -->
+                        <p:outputLabel value="State:" for="state" />
+                        <h:selectOneMenu id="state" value="#{userController.selected.state}" required="true" >
+                            <f:selectItems value="#{userController.listOfStates()}" var="state"
+                                           itemLabel="#{state}" itemValue="#{state}" />
+                        </h:selectOneMenu>
+
+                        <!--
+                        ********************************
+                        *           ZIP CODE           *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Zip Code:" for="zipcode" />
+                        <p:inputText id="zipcode" value="#{userController.selected.zipcode}" required="true" class="inputTextField"
+                                     requiredMessage="The Zip code field is required." label="Zip Code" >
+                            <f:validateLength minimum="5" />
+                            <f:validator validatorId="zipCodeValidator"/> 
+                        </p:inputText>
+
+                        <!--
+                        ************************************
+                        *        INSTRUMENTS PLAYED        *
+                        ************************************
+                        -->
+                        <p:outputLabel id="instruments_playedEntry" value="Instruments Played:" for="instruments_played" required="true" class="inputTextField"
+                                       requiredMessage="Instruments played is required." >
+                            &nbsp;<i class="fas fa-question-circle" />
+                            <!--
+                            When the user mouses over the icon, a tooltip is displayed
+                            to provide context-sensitive help information to the user.
+                            -->
+                            <p:tooltip for="instruments_playedEntry" value="Select which instruments you play. If not listed, select Other and describe further in About Me.
+                            You can describe proficiency of each in the About Me if you'd like."
+                                       showEffect="clip" hideEffect="explode" position="top" />
+                        </p:outputLabel>
+                        <p:column id="instruments_played">
+                            <p:selectBooleanCheckbox value="#{instrumentManager.electricGuitar}" />
+                            &nbsp;<h:outputText value="Electric Guitar" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.acousticGuitar}" />
+                            &nbsp;<h:outputText value="Acoustic Guitar" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.bass}" />
+                            &nbsp;<h:outputText value="Bass" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.drums}" />
+                            &nbsp;<h:outputText value="Drums" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.keyboard}" />
+                            &nbsp;<h:outputText value="Keyboard" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.vocals}" />
+                            &nbsp;<h:outputText value="Vocals" /><br/>
+                            <p:selectBooleanCheckbox value="#{instrumentManager.other}" />
+                            &nbsp;<h:outputText value="Other" /><br/>
+                        </p:column>
+                        <!--
+                        *********************************
+                        *           EXPERIENCE          *
+                        *********************************
+                        -->
+                        <p:outputLabel value="Experience:" for="experience" />
+                        <p:selectOneMenu id="experience" value="#{userController.selected.experience}" required="true" class="inputTextField"
+                                         requiredMessage="Experience is required." >
+                            <!--
+                            Experience levels for the user to select from
+                            -->
+                            <f:selectItems value="#{userController.listOfExperiences()}" var="experience"
+                                           itemLabel="#{experience}" itemValue="#{experience}" />
+                        </p:selectOneMenu>
+
+                        <!--
+                        ********************************
+                        *        FAVORITE GENRE        *
+                        ********************************
+                        -->
+                        <p:outputLabel id="favorite_genreEntry" value="Favorite Genre:" for="favorite_genre" >
+                            &nbsp;<i class="fas fa-question-circle" />
+                            <!--
+                            When the user mouses over the icon, a tooltip is displayed
+                            to provide context-sensitive help information to the user.
+                            -->
+                            <p:tooltip for="favorite_genreEntry" value="This will affect your site theme. You can edit/change this later."
+                                       showEffect="clip" hideEffect="explode" position="top" />
+                        </p:outputLabel>
+                        <p:selectOneMenu id="favorite_genre" value="#{userController.selected.favorite_genre}" required="true" class="inputTextField"
+                                         requiredMessage="Favorite genre is required." >
+                            <!--
+                            Experience levels for the user to select from
+                            -->
+                            <f:selectItems value="#{userController.listOfGenres()}" var="favorite_genre"
+                                           itemLabel="#{favorite_genre}" itemValue="#{favorite_genre}" />
+                        </p:selectOneMenu>
+
+                        <!--
+                        **************************
+                        *        ABOUT ME        *
+                        **************************
+                        -->
+                        <p:outputLabel id="about_meEntry" value="About Me:" for="about_me">
+                            &nbsp;<i class="fas fa-question-circle" />
+                            <!--
+                            When the user mouses over the icon, a tooltip is displayed
+                            to provide context-sensitive help information to the user.
+                            -->
+                            <p:tooltip for="about_meEntry" value="Share more about yourself and your skillset. Limited to 512 characters."
+                                       showEffect="clip" hideEffect="explode" position="top" />
+                        </p:outputLabel>
+                        <p:inputTextarea id="about_me" value="#{userController.selected.about_me}" styleClass="inputAboutMe" required="false">
+                        </p:inputTextarea>
+
+                        <!--
+                        ********************************
+                        *         EMAIL ADDRESS        *
+                        ********************************
+                        -->
+                        <p:outputLabel value="Email:" for="email" />
+                        <p:inputText id="email" value="#{userController.selected.email}" required="true" class="inputTextField"
+                                     requiredMessage="The Email field is required." label="Email">
+                            <f:validateLength minimum="2" />
+                            <f:validator validatorId="emailValidator" />  
+                        </p:inputText>
+
+                        <!-- Username is listed in an uneditable mode and cannot be changed -->
+                        <h:outputText value="Username:" />
+                        <h:outputText value="#{userController.selected.username}" />
+                    </p:panelGrid>
+                    <br />
+                    <!--
+                    ================================
+                    |          SAVE Button         |
+                    ================================
+                    -->
+                    <p:commandButton id="save" value="Save" icon="fas fa-save" styleClass="rounded-button"
+                                     ajax="false" action="#{userController.updateAccount(instrumentManager.instrumentsList())}" />
+                    &nbsp;
+                    <!--
+                    ================================
+                    |         CANCEL Button        |
+                    ================================
+                    -->
+                    <p:button outcome="/userAccount/Profile" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
+                    <br /><br />
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+</html>

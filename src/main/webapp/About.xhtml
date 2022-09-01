@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/template/siteTemplate.xhtml">
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="About" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+        <div align="center">
+            <h1>MuscianConnect Founders</h1>
+            <br />
+            <table width="90%" border="0" cellspacing="0" cellpadding="5">
+                <tr>
+                    <td>
+                        <span class="heading">Chris Koehler</span><br/>Chris Koehler is a current student at Virginia Tech pursuing a Bachelor's of Arts in National Security and a minor in Computer Science.  He is currently seeking to continue his studies with a graduate degree in Law and/or Computer Science. Chris is an avid musician and is interested in exploring opportunities to increase accessibility to music education worldwide. Hobbies outside of the aforementioned includes shredding (electric guitar).
+                    </td>
+                </tr>
+                <tr>
+                    <td> <!--Done-->
+                        <span class="heading">Alex Kyer</span><br/>is a current student at Virginia Tech pursuing a Master's degree of Computer Science. His studies currently include developing cloud software technologies, and implementing them using Amazon AWS services.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="heading">Ben Dunko</span><br/>is a current student at Virginia Tech perusing a Bachelor's of Computer Science. In addition to Cloud Software development he is interested in microeconomics, game design, music, and the intersection of the aforementioned topics with computer technologies.
+                    </td>
+                </tr>
+                <tr>
+                    <td> <!--Done-->
+                        <span class="heading">Emaan Rana</span><br/>is a current student at Virginia Tech pursing a Secure Computing Bachelor's of Computer Science. Besides Cloud Software development she has interest in transdisciplinary work such as how Software Development impacts art, music, and game dev.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="heading">David Carroll</span><br/>is a student at Virginia Tech pursuing a Bachelor's of Computer Science. He is interested in cyber security and will continue his studies with a graduate degree in Computer Science with a concentration in cyber security.
+                    </td>
+                </tr>
+            </table>
+            <br/><br/><br/>
+        </div>
+    </ui:define>
+</ui:composition>
+<!-- Do not enter tags after the composition line since they are ignored by JSF -->
+</html>

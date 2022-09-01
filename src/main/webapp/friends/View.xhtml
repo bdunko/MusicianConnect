@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition>
+    <!--
+    ==========================================================
+    |  Clicking the VIEW button in List.xhtml displays this  |
+    |  Dialog window showing the selected entry's data.    |
+    ==========================================================
+    -->
+    <p:dialog id="FriendViewDlg" header="#{friendController.selected.first_name} #{friendController.selected.last_name}" widgetVar="FriendViewDialog"
+              modal="true" position="center" appendTo="@(body)"
+              showEffect="slide" hideEffect="fade" responsive="true" >
+        <!--
+        Various effect options can be used when showing and closing the dialog.
+        Use showEffect and hideEffect options to apply these effects:
+            blind, bounce, clip, drop, explode, fade, fold, highlight, puff,
+            pulsate, scale, shake, size, slide and transfer. [PrimeFaces Documentation]
+        -->
+        <h:form id="FriendViewForm" class="ui-datatable-data">
+            <div align="center">
+                <img src="#{userController.getUserPhotoById(friendController.selected.user_id, friendController.selected.my_id)}"
+                     alt="User Photo" width="200" />
+
+                <br /><br />
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2"
+                                 rendered="#{friendController.selected != null}">
+                        <h:outputText value="Username:"/>
+                        <h:outputText value="#{friendController.selected.username}"/>
+
+                        <h:outputText value="First Name:"/>
+                        <h:outputText value="#{friendController.selected.first_name}"/>
+
+                        <h:outputText value="Last Name:"/>
+                        <h:outputText value="#{friendController.selected.last_name}"/>
+
+                        <h:outputText value="Experience:"/>
+                        <h:outputText value="#{friendController.getExperience()}"/>
+
+                        <h:outputText value="Instruments Played:"/>
+                        <h:outputText value="#{friendController.getInstrumentsPlayed()}"/>
+
+                        <h:outputText value="Favorite Genre:"/>
+                        <h:outputText value="#{friendController.getFavoriteGenre()}"/>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+                <br />
+                <h:panelGroup>
+                    <!-- CLOSE button -->
+                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                     onclick="PF('FriendViewDialog').hide()" />
+                </h:panelGroup>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

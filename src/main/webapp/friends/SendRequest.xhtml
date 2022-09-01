@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Connect" />
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center" style="width:70%; margin:0 auto;">
+
+                <h1>Connect With Fellow Musicians</h1>
+                <br />
+
+                <h:form>
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+
+                        <h:outputLabel value="Username:" for="username" />
+                        <p:inputText id="username" value="#{friendController.connectUsername}" required="true" class="inputTextField"
+                                     requiredMessage="You must enter a username to send a request." label="Username" >
+                        </p:inputText>
+                    </p:panelGrid>
+
+                    <br/>
+                    <br/>
+                    <!--
+                    ================================
+                    |         Connect Button       |
+                    ================================
+                    -->
+                    <p:commandButton id="connect" value="Connect" icon="fas fa-sign-in-alt" styleClass="rounded-button"
+                                     ajax="false" action="#{friendController.sendRequest()}" />
+                    
+                    &nbsp;
+                    <!--
+                    ================================
+                    |         CANCEL Button        |
+                    ================================
+                    -->
+                    <p:button outcome="/index" value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined" />
+                </h:form>
+            </div>
+            <br/><br/><br/>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition>
+    <!--
+        Selecting Search Songs from the hamburger menu brings up this dialog used for searching.
+        -->
+    <p:dialog id="SongAPISearchDlg" header="Search For Songs" responsive="true" position="center center"
+              widgetVar="SongAPISearchDialog" modal="true" resizable="false" appendTo="@(body)" >
+
+        <h:form id="searchDialogForm">
+            <div align="center">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="panelGridColumn1, panelGridColumn2">
+
+                        <p:outputLabel value="Search By Artist or Title:" for="search" />
+                        <p:inputText id="search" value="#{searchedSongController.searchQuery}" style="width:400px; color: black;"
+                                     required="true" requiredMessage="Please Enter a Search String!"/>
+
+                        <p:outputLabel value="Max. Number of Songs: " for="maxNum" />
+                        <p:selectOneMenu id="maxNum" value="#{searchedSongController.maxNumberOfSongs}" style="width:400px; color: black;"
+                                         required = "true" requiredMessage="Please Select Maximum Number of Songs!">
+                            <f:selectItem itemLabel="Select Number" itemValue=""/>
+                            <f:selectItem itemLabel="5" itemValue="5"/>
+                            <f:selectItem itemLabel="10" itemValue="10"/>
+                            <f:selectItem itemLabel="15" itemValue="15"/>
+                            <f:selectItem itemLabel="20" itemValue="20"/>
+                            <f:selectItem itemLabel="25" itemValue="25"/>
+                            <f:selectItem itemLabel="30" itemValue="30"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+                <!--  SEARCH button:
+                Clicking the Search button invokes the performSearch() method of the
+                searchedSongController CDI @Named bean. The performSearch() method executes
+                the search for the searchQuery property value and at the end of the execution with
+
+                    return "SongSearchResults?faces-redirect=true";
+
+                it returns "SongSearchResults" as the name of the XHTML file to display.
+                -->
+                <br/>
+                <p:commandButton id="searchButton" value="Search" icon="fas fa-search" styleClass="rounded-button"
+                                 ajax="false" action="#{searchedSongController.performSearch()}" />
+                &nbsp;&nbsp;
+
+                <!-- CANCEL button -->
+                <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                 immediate="true" onclick="PF('SongAPISearchDlg').hide()" />
+                <br /><br />
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

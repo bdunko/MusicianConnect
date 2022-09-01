@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/template/siteTemplate.xhtml">
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="Songs I Want to Learn" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+
+        <!-- In case of JSF validation error, set 'selected' to null in songController -->
+        <c:if test="#{facesContext.validationFailed}">
+            ${wishListController.unselect()}
+        </c:if>
+
+        <!-- Set 'selected' to null in songController when the user refreshes / reloads this JSF page -->
+        <f:metadata>
+            <f:viewAction action="#{wishListController.unselect()}" rendered="#{facesContext.postback}" />
+        </f:metadata>
+
+        <div align="center">
+            <h:form id="SongListForm">
+                <p:panel header="My Wishlist Songs">
+                    <p:dataTable id="datalist"
+                                 value="#{wishListController.listOfWishLists}"
+                                 var="aSong"
+                                 widgetVar="songDataTable"
+                                 selectionMode="single"
+                                 selection="#{wishListController.selected}"
+                                 reflow="true"
+                                 showGridlines="true"
+                                 paginator="true"
+                                 rowKey="#{aSong.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="5,10,20,30,50,70,90"
+                                 emptyMessage="No songs found!" >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton playableSongsButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton playableSongsButton"/>
+
+                        <!--
+                        *************************
+                        *   Data Table Header   *
+                        *************************
+                        -->
+                        <f:facet name="header">
+                            <div align="center">
+                                <p:inputText id="globalFilter" onkeyup="PF('songDataTable').filter()" filterMatchMode="contains"
+                                             style="width: 250px"
+                                             placeholder="Enter Global Search Query" />
+                                &nbsp;
+                                <p:commandButton type="button" value="Clear All Filters" styleClass="ui-button-outlined"
+                                                 icon="fas fa-undo" onclick="PF('songDataTable').clearFilters()" />
+                            </div>
+                        </f:facet>
+
+                        <!--
+                        *******************
+                        *    Song Title   *
+                        *******************
+                        -->
+                        <p:column headerText="Title" sortBy="#{aSong.title}" width="12%"
+                                  filterBy="#{aSong.title}" filterMatchMode="contains"
+                                  style="vertical-align: top; text-align: center;">
+                            <h:outputText value="#{aSong.title}"/>
+                        </p:column>
+
+                        <!--
+                        ********************
+                        *    Song Artist   *
+                        ********************
+                        -->
+                        <p:column headerText="Artist" sortBy="#{aSong.artist}" width="12%"
+                                  filterBy="#{aSong.artist}" filterMatchMode="contains"
+                                  style="vertical-align: top; text-align: center;">
+                            <h:outputText value="#{aSong.artist}"/>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *    Song Genre   *
+                        *******************
+                        -->
+                        <p:column headerText="Genre" sortBy="#{aSong.genre}" width="6%"
+                                  filterBy="#{aSong.genre}" filterMatchMode="contains"
+                                  style="vertical-align: top; text-align: center;">
+                            <h:outputText value="#{aSong.genre}"/>
+                        </p:column>
+
+                        <!--
+                        ******************
+                        *  Song Duration *
+                        ******************
+                        -->
+                        <p:column headerText="Duration" sortBy="#{aSong.duration}" width="8%"
+                                  filterBy="#{aSong.duration}" filterMatchMode="contains"
+                                  style="vertical-align: top; text-align: center;">
+                            <h:outputText value="#{aSong.duration}"/>
+                        </p:column>
+
+                        <!--
+                        ******************
+                        *  Song Lyrics   *
+                        ******************
+                        -->
+                        <p:column headerText="Lyrics" sortBy="#{aSong.lyrics}"
+                                  filterBy="#{aSong.lyrics}" filterMatchMode="contains"
+                                  style="vertical-align: top; white-space: pre-wrap;">
+                            <h:outputText style="white-space: pre-wrap;" value="#{aSong.lyrics}" styleClass="scrollableTextBox"/>
+                        </p:column>
+
+
+                        <!--
+                        ******************
+                        *    Song Tabs   *
+                        ******************
+                        -->
+                        <p:column headerText="Tabs" width="4%"
+                                  style="vertical-align: center; text-align: center;">
+                            <h:outputLink value="#{aSong.tabs_link}">
+                                <h:graphicImage name = "images/wwwIcon.png"
+                                                class="scalableImage" />
+                            </h:outputLink>
+                        </p:column>
+
+                        <!--
+                        *******************
+                        *    Song Video   *
+                        *******************
+                        -->
+                        <p:column headerText="Video" style="text-align: center; vertical-align: center" width="10%">
+                            <h:outputLink value="https://youtube.com/watch?v=#{aSong.youtube_video_id}">
+                                <h:graphicImage value="https://i1.ytimg.com/vi/#{aSong.youtube_video_id}/mqdefault.jpg"
+                                                class="scalableImage" />
+                            </h:outputLink>
+                        </p:column>
+
+
+                        <!--
+                        *************************
+                        *   Data Table Footer   *
+                        *************************
+                        -->
+                        <f:facet name="footer">
+                            <div align="center">
+                                <!-- CREATE button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="createButton" value="Create" icon="fas fa-plus" styleClass="rounded-button"
+                                                 actionListener="#{wishListController.prepareCreate()}"
+                                                 update=":WishlistCreateForm" oncomplete="PF('WishlistCreateDialog').show()"/>
+                                &nbsp;
+                                <!-- VIEW button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="viewButton" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                                 actionListener="#{wishListController.setIdOfVideoToPlay(wishListController.selected.youtube_video_id)}"
+                                                 update=":WishlistViewDlg" oncomplete="PF('WishlistViewDialog').show()"
+                                                 disabled="#{empty wishListController.selected}"/>
+                                &nbsp;
+                                <!-- EDIT button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
+                                                 update=":WishlistEditForm" oncomplete="PF('WishlistEditDialog').show()"
+                                                 disabled="#{empty wishListController.selected}"/>
+                                &nbsp;
+                                <!-- ***************************************************
+                                Display a Confirmation dialog for the DELETE button
+                                id is used since it is referenced to be activated or not
+                                **************************************************** -->
+                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt"  styleClass="rounded-button"
+                                                 actionListener="#{wishListController.destroy()}"
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                 disabled="#{empty wishListController.selected}">
+
+                                    <p:confirm header="Deletion Confirmation"
+                                               message="Are you sure you want to remove the selected song #{wishListController.selected.title} from your wishlist?"/>
+                                </p:commandButton>
+
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                                <!-- *******************************************
+                                End of Display of the DELETE Confirmation dialog
+                                ******************************************** -->
+                                &nbsp;
+                                <p:commandButton id="playableSongsButton" value="Move To Playable Songs" icon="fas fa-plus" styleClass="rounded-button"
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                 disabled="#{empty wishListController.selected}">
+                                    <f:actionListener binding="#{playableSongController.addWishlistSong(wishListController.selected)}"/>
+                                    <f:actionListener binding="#{wishListController.destroy(false)}"/>
+
+
+                                    <p:confirm header="Move To Playable Songs Confirmation"
+                                               message="Are you sure you want to move the selected song to your list of playable songs?" />
+                                </p:commandButton>
+
+                                <p:confirmDialog id="confirmDialogBoxShare" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="500">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </div>
+
+        <!--
+        Clicking the Create button displays the included
+        Create.xhtml file in a dialog window on top of this page.
+        -->
+        <ui:include src="/wishlist/Create.xhtml"/>
+
+        <!--
+        Clicking the View button displays the included
+        View.xhtml file in a dialog window on top of this page.
+        -->
+        <ui:include src="/wishlist/View.xhtml"/>
+
+        <!--
+        Clicking the Edit button displays the included
+        Edit.xhtml file in a dialog window on top of this page.
+        -->
+        <ui:include src="/wishlist/Edit.xhtml"/>
+    </ui:define>
+</ui:composition>
+</html>

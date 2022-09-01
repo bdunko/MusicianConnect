@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Team 5 (Alex Kyer, Ben Dunko, Emaan Rana, David Carroll, Chris Koehler) on 2021.12.7
+  - Copyright © 2021 Team 5. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<ui:composition>
+    <!--
+    ==========================================================
+    |  Clicking the INFO button displays this Dialog window  |
+    |  to show the Details of the Selected Video.   |
+    ==========================================================
+    -->
+    <p:dialog id="searchedVideoDetailsDlg" header="View Video" widgetVar="searchedVideoDetailsDialog"
+              modal="true" width="90%" position="center" appendTo="@(body)"
+              showEffect="slide" hideEffect="explode" responsive="true" >
+        <!--
+        There are various effect options to be used when displaying and closing the dialog.
+        Use showEffect and hideEffect options to apply these effects:
+            blind, bounce, clip, drop, explode, fade, fold, highlight, puff,
+            pulsate, scale, shake, size, slide and transfer. [PrimeFaces user Guide]
+        -->
+        <h:form id="searchedVideoDetailsForm">
+            <div align="center">
+
+                <div align="center">
+                    <br />
+                    <div class="responsive-container">
+                        <iframe class="responsive-iframe"
+                                src="https://www.youtube.com/embed/#{videoController.selected.youtubeVideoId}">
+                        </iframe>
+                    </div>
+                    <table style="width:70%; border:1px solid black; border-collapse: collapse;">
+                        <tr bgcolor="#d3d3d3">
+                            <th>Video Description</th>
+                        </tr>
+                        <tr bgcolor="white">
+                            <td align="center">#{videoController.selected.description}</td>
+                        </tr>
+                    </table>
+                    <br/>
+
+                    <!-- CLOSE button -->
+                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                     onclick="PF('searchedVideoDetailsDialog').hide()" />
+                </div>
+            </div>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>
